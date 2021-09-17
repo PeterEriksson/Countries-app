@@ -1,9 +1,20 @@
 import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 function Country({ flag, name, population, region, capital }) {
+  const router = useRouter();
+
+  const handleCountryClick = () => {
+    router.push("/" + name);
+  };
+
   return (
-    <div className="flex flex-col mb-5 bg-mainDarkGrayish h-96 w-64 border-8 border-borderColor rounded-lg">
+    <div
+      onClick={() => handleCountryClick()}
+      className="flex flex-col mb-5 bg-mainDarkGrayish h-96 w-64 border-8 border-borderColor rounded-lg"
+    >
       <div className="bg-borderColor">
         <LazyLoadImage
           src={flag}

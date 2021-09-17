@@ -4,6 +4,7 @@ import Select from "react-select";
 import Image from "next/image";
 import Country from "./Country";
 /* import { LazyLoadImage } from "react-lazy-load-image-component"; */
+import Link from "next/link";
 
 function MainPage() {
   const [areaSelected, setAreaSelected] = useState("Select a region");
@@ -23,7 +24,6 @@ function MainPage() {
     getAllCountries();
   }, []);
 
-  console.log(allCountries);
   return (
     <div className="px-5 flex flex-col  items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
       {/* div for (inner)body */}
@@ -58,6 +58,7 @@ function MainPage() {
         {/* Country Component */}
         {/* flag, name, ...population, region, capital... */}
         {allCountries.map((item, i) => (
+          /*   <Link href={`/countries/${item.name}`} key={i}> */
           <Country
             key={i}
             flag={item.flag}
@@ -66,6 +67,7 @@ function MainPage() {
             region={item.region}
             capital={item.capital}
           />
+          /*   </Link> */
         ))}
 
         {/* When user starts scrolling -> take me to top-button displayed */}

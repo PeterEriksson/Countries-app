@@ -13,7 +13,7 @@ function Country({ flag, name, population, region, capital }) {
   return (
     <div
       onClick={() => handleCountryClick()}
-      className="flex flex-col mb-5 bg-mainDarkGrayish h-96 w-64 border-8 border-borderColor rounded-lg"
+      className="cursor-pointer flex flex-col mb-5 bg-mainDarkGrayish h-96 w-64 border-8 border-borderColor rounded-lg"
     >
       <div className="bg-borderColor">
         <LazyLoadImage

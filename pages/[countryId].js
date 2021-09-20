@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Nav from "../components/Nav";
 import Head from "next/head";
+import { ArrowLeftIcon } from "@heroicons/react/outline";
 
 function CountryDetail() {
-  const [allCountries, setAllCountries] = useState([]);
-  const [testing, setTesting] = useState([]);
   const router = useRouter();
-  const countryId = router.query.countryId;
+  let countryId = router.query.countryId;
 
-  useEffect(() => {
+  const [allCountries, setAllCountries] = useState([]);
+  const [borderCountries, setBorderCountries] = useState([]);
+
+  useLayoutEffect(() => {
     const getAllCountries = async () => {
       try {
         const res = await fetch("https://restcountries.eu/rest/v2/all");
@@ -20,18 +22,21 @@ function CountryDetail() {
         console.log(err);
       }
     };
-
+    setBorderCountries(__country?.borders?.map((item) => item));
     getAllCountries();
-  }, []);
+  }, [countryId]);
 
-  const __country = allCountries.find((item) => item.name === countryId);
+  let __country = allCountries.find((item) => item.name === countryId);
+  /* let __country = allCountries.find((item) => item.name === __countryId); */
 
   const languages = __country?.languages?.map((item, i) => (
-    <p key={i}>{item.name}, </p>
+    <p className="text-gray-400" key={i}>
+      {`${item.name}, `}
+    </p>
   ));
 
   /*ex:["MNE","GRC","MKD","KOS"]  */
-  const borderCountries = __country?.borders?.map((item) => item);
+  /* const borderCountries = __country?.borders?.map((item) => item); */
 
   const handleNewCountryClick = (stringId) => {
     const getCountry = allCountries.find(
@@ -39,6 +44,42 @@ function CountryDetail() {
     );
     /* console.log(getCountry.name); */
     router.replace(`/${getCountry.name}`);
+  };
+
+  /* Works BUT bugs when i go back and into a country */
+  let arr = [];
+  for (let i = 0; i < borderCountries?.length; i++) {
+    allCountries.map((item) => {
+      if (item.alpha3Code === borderCountries[i]) {
+        return arr.push(item.name);
+      }
+    });
+  }
+  /*  console.log(arr);
+  console.log(borderCountries?.length); */
+
+  /* Utility funciton */
+  /* https://www.codegrepper.com/code-examples/javascript/javascript+add+comma+to+large+numbers */
+  function numberWithCommas(x) {
+    return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  const __languages = __country?.languages?.map((item, i) => item.name);
+  /* console.log(__languages); */
+
+  /* Utility funciton */
+  function removeLastComma(str) {
+    return str.replace(/,(\s+)?$/, "");
+  }
+
+  const displayLanguages = () => {
+    let string = "";
+    for (let i = 0; i < __languages?.length; i++) {
+      string += __languages[i] + ", ";
+    }
+    string = removeLastComma(string);
+    /* console.log(string); */
+    return <p className="text-gray-400">{string}</p>;
   };
 
   return (
@@ -49,11 +90,18 @@ function CountryDetail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
-      <div className="px-5 flex flex-col  items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
-        <div className="flex flex-col w-full items-center">
+      <main className="px-5 flex flex-col  items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
+        <section className="flex flex-col w-full items-center">
           {/* BACK BUTTON */}
-          <div className="w-60">
-            <button onClick={() => router.push("/")}>Back</button>
+          {/* set div w-60 -> positions button at right place. */}
+          <div className="w-60 mb-10">
+            <section
+              onClick={() => router.push("/")}
+              className="w-2/5 cursor-pointer space-x-2 text-gray-300 bg-mainDarkGrayish py-2 rounded-sm flex flex-row justify-center items-center"
+            >
+              <ArrowLeftIcon className="w-4 h-4" />
+              <button>Back</button>
+            </section>
           </div>
           {/* Country Flag */}
           <LazyLoadImage
@@ -69,26 +117,50 @@ function CountryDetail() {
               {__country?.name}
             </h2>
             {/* Native name */}
-            <p>Native name: {__country?.nativeName}</p>
+            <section className="flex flex-row py-1.5">
+              <p>Native name: </p>
+              <p className="text-gray-400"> {__country?.nativeName}</p>
+            </section>
             {/* Pupulation */}
-            <p>Population: {__country?.population}</p>
+            <section className="flex flex-row  py-1.5">
+              <p>Population: </p>
+              <p className="text-gray-400">
+                {numberWithCommas(__country?.population)}
+                {/* {__country?.population} */}
+              </p>
+            </section>
             {/* Region */}
-            <p>Region: {__country?.region}</p>
+            <section className="flex flex-row py-1.5">
+              <p>Region: </p>
+              <p className="text-gray-400">{__country?.region}</p>
+            </section>
             {/* Sub Region */}
-            <p>Sub Region: {__country?.subregion}</p>
+            <section className="flex flex-row  py-1.5">
+              <p>Sub Region: </p>
+              <p className="text-gray-400">{__country?.subregion}</p>
+            </section>
             {/* Capital */}
-            <p>Capital: {__country?.capital}</p>
+            <section className="flex flex-row  py-1.5 mb-8">
+              <p>Capital: </p>
+              <p className="text-gray-400">{__country?.capital}</p>
+            </section>
             {/* Top Level Domain */}
-            <p>Top Level Domain: {__country?.topLevelDomain}</p>
+            <section className="flex-row flex py-1.5">
+              <p>Top Level Domain: </p>
+              <p className="text-gray-400">{__country?.topLevelDomain}</p>
+            </section>
             {/* Currencies */}
-            <p>Currencies: {__country?.currencies[0]?.name}</p>
+            <section className="flex flex-row py-1.5">
+              <p>Currencies: </p>
+              <p className="text-gray-400">{__country?.currencies[0]?.name}</p>
+            </section>
             {/* Languages */}
-            <div className="flex flex-row">
+            <section className="flex flex-row py-1.5 mb-8">
               <p>Languages: </p>
-              {languages}
-            </div>
+              {displayLanguages()}
+            </section>
             {/* Border Coutnries-> */}
-            <p>Border Countries: </p>
+            <p className="py-1.5">Border Countries: </p>
             <div className="flex  w-72 overflow-x-auto flex-wrap mb-6">
               {/* buttons for border countries */}
               {__country?.borders?.map((item, i) => (
@@ -104,8 +176,8 @@ function CountryDetail() {
               ))}
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }

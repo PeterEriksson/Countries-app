@@ -27,7 +27,6 @@ function CountryDetail() {
   }, [countryId]);
 
   let __country = allCountries.find((item) => item.name === countryId);
-  /* let __country = allCountries.find((item) => item.name === __countryId); */
 
   const languages = __country?.languages?.map((item, i) => (
     <p className="text-gray-400" key={i}>

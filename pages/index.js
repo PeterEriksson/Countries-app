@@ -2,12 +2,12 @@ import Head from "next/head";
 import Nav from "../components/Nav";
 import React, { useEffect, useState } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
-import Select from "react-select";
 import Image from "next/image";
 import Country from "../components/Country";
 /* import { LazyLoadImage } from "react-lazy-load-image-component"; */
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Select from "react-select";
 
 /* https://www.youtube.com/watch?v=iW39Merz0zE */
 const url = "https://restcountries.eu/rest/v2/all";
@@ -25,22 +25,76 @@ export default function Home({ data }) {
   /* console.log("data", data); */
   const router = useRouter();
 
-  const [areaSelected, setAreaSelected] = useState("Select a region");
-  /*   const [allCountries, setAllCountries] = useState([]); */
+  const [areaSelected, setAreaSelected] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [countries, setCountries] = useState([]);
+  const options = [
+    { label: "all", value: "All" },
+    { label: "africa", value: "Africa" },
+    { label: "america", value: "America" },
+    { label: "asia", value: "Asia" },
+    { label: "europe", value: "Europe" },
+    { label: "oceania", value: "Oceania" },
+  ];
+  const [region, setRegion] = useState("All");
 
-  /* useEffect(() => {
-    const getAllCountries = async () => {
+  /* for search function (ie not auto search) */
+  const [__countries, __setCountries] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+
+  useEffect(() => {
+    const handleSearch = async () => {
       try {
-        const res = await fetch("https://restcountries.eu/rest/v2/all");
+        const res = await fetch(
+          `https://restcountries.eu/rest/v2/name/${searchText}`
+        );
         const data = await res.json();
-        setAllCountries(data);
+        setCountries(data);
       } catch (err) {
         console.log(err);
       }
     };
 
-    getAllCountries();
-  }, []); */
+    handleSearch();
+  }, [searchText]);
+
+  /* console.log(countries); */
+
+  /* const handleForm = (e) => {
+    e.preventDefault();
+    const handleSearch = async () => {
+      try {
+        const res = await fetch(
+          `https://restcountries.eu/rest/v2/name/${searchText}`
+        );
+        const data = await res.json();
+        __setCountries(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    setHasSearched(true);
+  }; */
+
+  const onchangeSelect = (item) => {
+    setRegion(item);
+    console.log(region.label);
+  };
+
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      color: "white",
+      backgroundColor: state.isSelected ? "#202C37" : "#333E48",
+    }),
+    control: (provided) => ({
+      ...provided,
+      /*  marginTop: "5%", */
+      backgroundColor: "#333E48",
+      border: "none",
+      borderOutline: "none",
+    }),
+  };
 
   return (
     <div className="font-mainFont">
@@ -57,9 +111,14 @@ export default function Home({ data }) {
         {/* div for (inner)body */}
         <div className="flex flex-col w-full items-center">
           {/* FORM */}
-          <form className="flex mb-8 flex-row items-center h-12 w-80 py-6  bg-mainDarkGrayish border-8 border-borderColor rounded-lg">
+          <form
+            onSubmit={(e) => handleForm(e)}
+            className="flex mb-8 flex-row items-center h-12 w-80 py-6  bg-mainDarkGrayish border-8 border-borderColor rounded-lg"
+          >
             <SearchIcon className="h-5 w-5 ml-8 cursor-pointer" />
             <input
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               type="text"
               className="font-medium text-sm  w-full flex-grow pl-8 outline-none bg-mainDarkGrayish"
               placeholder="Search for a country..."
@@ -68,7 +127,7 @@ export default function Home({ data }) {
           {/* FILTER */}
           {/* same w as form container */}
           <div className="w-80 mb-8">
-            <select
+            {/* <select
               value={areaSelected}
               onChange={(e) => setAreaSelected(e.target.value)}
               className=""
@@ -78,20 +137,42 @@ export default function Home({ data }) {
               <option value="asia">Asia</option>
               <option value="europe">Europe</option>
               <option value="oceania">Oceania</option>
-            </select>
+            </select> */}
+
+            <Select
+              className="w-1/2"
+              placeholder="Filter by region"
+              styles={customStyles}
+              value={region}
+              onChange={onchangeSelect}
+              options={options}
+              getOptionValue={(option) => option.value}
+              getOptionLabel={(option) => option.value}
+            />
           </div>
           {/* Country Component */}
           {/* flag, name, ...population, region, capital... */}
-          {data.map((item, i) => (
-            <Country
-              key={i}
-              flag={item.flag}
-              name={item.name}
-              population={item.population}
-              region={item.region}
-              capital={item.capital}
-            />
-          ))}
+          {countries?.length > 0
+            ? countries.map((item, i) => (
+                <Country
+                  key={i}
+                  flag={item.flag}
+                  name={item.name}
+                  population={item.population}
+                  region={item.region}
+                  capital={item.capital}
+                />
+              ))
+            : data.map((item, i) => (
+                <Country
+                  key={i}
+                  flag={item.flag}
+                  name={item.name}
+                  population={item.population}
+                  region={item.region}
+                  capital={item.capital}
+                />
+              ))}
         </div>
       </div>
     </div>

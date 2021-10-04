@@ -85,7 +85,8 @@ export default function Home({ data }) {
       {/* <MainPage /> */}
       <div className="px-5 flex flex-col items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
         {/* div for (inner)body */}
-        {widthState <= 659 && (
+        {/* OTHERWISE display dekstop style (implement) */}
+        {widthState <= 659 ? (
           <div className="flex flex-col w-full items-center">
             {/* FORM */}
             <form
@@ -116,23 +117,50 @@ export default function Home({ data }) {
               />
             </div>
 
-            <div className="flex flex-col smallMediumBreakpoint:flex-wrap">
+            <div className="flex flex-col ">
               {data.map((item, i) => (
-                <Country
-                  key={i}
-                  flag={item.flags[0]}
-                  name={item.name.common}
-                  population={item.population}
-                  region={item.region}
-                  capital={item.capital}
-                  population={3223}
-                  currency={item.currencies?.KGS?.name}
-                  item={item}
+                <Country key={i} item={item} />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col w-full">
+            {/* DIV for search plus filter (desktop)  */}
+            <div className="flex flex-row justify-between md:mx-8 lg:mx-10 mx-5 mb-5 items-center">
+              <form
+                onSubmit={(e) => handleForm(e)}
+                className="flex flex-row items-center h-12 w-80 py-4  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
+              >
+                <SearchIcon className="h-5 w-5 ml-8 cursor-pointer" />
+                <input
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  type="text"
+                  className="font-medium text-sm  w-full flex-grow pl-8 outline-none bg-mainDarkGrayish"
+                  placeholder="Search for a country..."
                 />
+              </form>
+              <div className="w-40">
+                <Select
+                  className="w-full"
+                  placeholder="Filter by region"
+                  styles={customStyles}
+                  value={region}
+                  onChange={onchangeSelect}
+                  options={options}
+                  getOptionValue={(option) => option.value}
+                  getOptionLabel={(option) => option.value}
+                />
+              </div>
+            </div>
+            <div className="flex flex-wrap justify-center ">
+              {data.map((item, i) => (
+                <Country key={i} item={item} />
               ))}
             </div>
           </div>
         )}
+
         {/* ---- */}
       </div>
     </div>

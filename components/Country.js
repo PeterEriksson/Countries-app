@@ -3,14 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-function Country({
-  flag,
-  name,
-  /* population, */ region,
-  capital,
-  currency,
-  item,
-}) {
+function Country({ currency, item }) {
   const router = useRouter();
 
   const handleCountryClick = () => {
@@ -26,19 +19,19 @@ function Country({
   return (
     <div
       onClick={() => handleCountryClick()}
-      className="cursor-pointer flex flex-col mb-5 bg-mainDarkGrayish h-96 w-64 border-8 border-borderColor rounded-lg"
+      className="cursor-pointer flex flex-col mx-4 mb-7 bg-mainDarkGrayish h-80 w-64 border-8 border-borderColor rounded-lg"
     >
-      <div className="bg-borderColor">
+      <div className="bg-mainDarkGrayish flex justify-center">
         <LazyLoadImage
           src={item.flags.png}
           effect=""
-          className="rounded-t-md"
-          height={400}
-          width={250}
+          className="rounded-t-md object-cover w-64 h-32"
+          /* height={400}
+          width={250} */
         />
       </div>
       <div className="flex flex-col ml-6">
-        <h2 className="mt-5 mb-5 font-extrabold text-xl">{name}</h2>
+        <h2 className="mt-5 mb-5 font-extrabold text-xl">{item.name.common}</h2>
         <div className="flex ">
           <p className="font-bold">Population: </p>
           {"  "}
@@ -49,11 +42,11 @@ function Country({
         </div>
         <div className="flex ">
           <p className="font-bold">Region: </p>
-          <p className="font-extralight"> {region}</p>
+          <p className="font-extralight"> {item.region}</p>
         </div>
         <div className="flex ">
           <p className="font-bold">Capital: </p>
-          <p className="font-extralight">{capital}</p>
+          <p className="font-extralight">{item.capital}</p>
         </div>
       </div>
     </div>

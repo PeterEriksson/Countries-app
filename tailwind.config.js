@@ -10,6 +10,9 @@ module.exports = {
         mainDarkGrayish: "#333E48",
         borderColor: "#2B3945",
       },
+      screens: {
+        smallMediumBreakpoint: "660px",
+      },
     },
   },
   variants: {

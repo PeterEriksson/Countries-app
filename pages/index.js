@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Select from "react-select";
 
 /* https://www.youtube.com/watch?v=iW39Merz0zE */
-const url = "https://restcountries.eu/rest/v2/all";
+const url = "https://restcountries.com/v3.1/all";
 export async function getServerSideProps() {
   const res = await fetch(url);
   const data = await res.json();
@@ -22,7 +22,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ data }) {
-  /* console.log("data", data); */
+  console.log("data", data);
   const router = useRouter();
 
   const [areaSelected, setAreaSelected] = useState("");
@@ -37,44 +37,20 @@ export default function Home({ data }) {
     { label: "oceania", value: "Oceania" },
   ];
   const [region, setRegion] = useState("All");
+  const [widthState, setWidthState] = useState(null);
 
-  /* for search function (ie not auto search) */
-  const [__countries, __setCountries] = useState([]);
-  const [hasSearched, setHasSearched] = useState(false);
+  console.log(data);
 
   useEffect(() => {
-    const handleSearch = async () => {
-      try {
-        const res = await fetch(
-          `https://restcountries.eu/rest/v2/name/${searchText}`
-        );
-        const data = await res.json();
-        setCountries(data);
-      } catch (err) {
-        console.log(err);
-      }
+    setWidthState(window.innerWidth);
+    function handleResize() {
+      setWidthState(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return (_) => {
+      window.removeEventListener("resize", handleResize);
     };
-
-    handleSearch();
-  }, [searchText]);
-
-  /* console.log(countries); */
-
-  /* const handleForm = (e) => {
-    e.preventDefault();
-    const handleSearch = async () => {
-      try {
-        const res = await fetch(
-          `https://restcountries.eu/rest/v2/name/${searchText}`
-        );
-        const data = await res.json();
-        __setCountries(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    setHasSearched(true);
-  }; */
+  });
 
   const onchangeSelect = (item) => {
     setRegion(item);
@@ -107,73 +83,57 @@ export default function Home({ data }) {
       <Nav />
       {/* MainPage */}
       {/* <MainPage /> */}
-      <div className="px-5 flex flex-col  items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
+      <div className="px-5 flex flex-col items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
         {/* div for (inner)body */}
-        <div className="flex flex-col w-full items-center">
-          {/* FORM */}
-          <form
-            onSubmit={(e) => handleForm(e)}
-            className="flex mb-8 flex-row items-center h-12 w-80 py-6  bg-mainDarkGrayish border-8 border-borderColor rounded-lg"
-          >
-            <SearchIcon className="h-5 w-5 ml-8 cursor-pointer" />
-            <input
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              type="text"
-              className="font-medium text-sm  w-full flex-grow pl-8 outline-none bg-mainDarkGrayish"
-              placeholder="Search for a country..."
-            />
-          </form>
-          {/* FILTER */}
-          {/* same w as form container */}
-          <div className="w-80 mb-8">
-            {/* <select
-              value={areaSelected}
-              onChange={(e) => setAreaSelected(e.target.value)}
-              className=""
+        {widthState <= 659 && (
+          <div className="flex flex-col w-full items-center">
+            {/* FORM */}
+            <form
+              onSubmit={(e) => handleForm(e)}
+              className="flex mb-8 flex-row items-center h-12 w-80 py-6  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
             >
-              <option value="africa">Africa</option>
-              <option value="america">America</option>
-              <option value="asia">Asia</option>
-              <option value="europe">Europe</option>
-              <option value="oceania">Oceania</option>
-            </select> */}
+              <SearchIcon className="h-5 w-5 ml-8 cursor-pointer" />
+              <input
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                type="text"
+                className="font-medium text-sm  w-full flex-grow pl-8 outline-none bg-mainDarkGrayish"
+                placeholder="Search for a country..."
+              />
+            </form>
+            {/* FILTER */}
+            {/* same w as form container */}
+            <div className="w-80 mb-8">
+              <Select
+                className="w-1/2"
+                placeholder="Filter by region"
+                styles={customStyles}
+                value={region}
+                onChange={onchangeSelect}
+                options={options}
+                getOptionValue={(option) => option.value}
+                getOptionLabel={(option) => option.value}
+              />
+            </div>
 
-            <Select
-              className="w-1/2"
-              placeholder="Filter by region"
-              styles={customStyles}
-              value={region}
-              onChange={onchangeSelect}
-              options={options}
-              getOptionValue={(option) => option.value}
-              getOptionLabel={(option) => option.value}
-            />
-          </div>
-          {/* Country Component */}
-          {/* flag, name, ...population, region, capital... */}
-          {countries?.length > 0
-            ? countries.map((item, i) => (
+            <div className="flex flex-col smallMediumBreakpoint:flex-wrap">
+              {data.map((item, i) => (
                 <Country
                   key={i}
-                  flag={item.flag}
-                  name={item.name}
+                  flag={item.flags[0]}
+                  name={item.name.common}
                   population={item.population}
                   region={item.region}
                   capital={item.capital}
-                />
-              ))
-            : data.map((item, i) => (
-                <Country
-                  key={i}
-                  flag={item.flag}
-                  name={item.name}
-                  population={item.population}
-                  region={item.region}
-                  capital={item.capital}
+                  population={3223}
+                  currency={item.currencies?.KGS?.name}
+                  item={item}
                 />
               ))}
-        </div>
+            </div>
+          </div>
+        )}
+        {/* ---- */}
       </div>
     </div>
   );

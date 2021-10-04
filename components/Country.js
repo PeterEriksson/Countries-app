@@ -3,12 +3,25 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-function Country({ flag, name, population, region, capital }) {
+function Country({
+  flag,
+  name,
+  /* population, */ region,
+  capital,
+  currency,
+  item,
+}) {
   const router = useRouter();
 
   const handleCountryClick = () => {
     router.push("/" + name);
   };
+
+  /* Utility funciton */
+  /* https://www.codegrepper.com/code-examples/javascript/javascript+add+comma+to+large+numbers */
+  function numberWithCommas(x) {
+    return x?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   return (
     <div
@@ -17,7 +30,7 @@ function Country({ flag, name, population, region, capital }) {
     >
       <div className="bg-borderColor">
         <LazyLoadImage
-          src={flag}
+          src={item.flags.png}
           effect=""
           className="rounded-t-md"
           height={400}
@@ -29,7 +42,10 @@ function Country({ flag, name, population, region, capital }) {
         <div className="flex ">
           <p className="font-bold">Population: </p>
           {"  "}
-          <p className="font-extralight"> {population}</p>
+          <p className="font-extralight">
+            {" "}
+            {numberWithCommas(item.population)}
+          </p>
         </div>
         <div className="flex ">
           <p className="font-bold">Region: </p>

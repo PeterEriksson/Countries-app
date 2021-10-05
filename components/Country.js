@@ -7,7 +7,7 @@ function Country({ currency, item }) {
   const router = useRouter();
 
   const handleCountryClick = () => {
-    router.push("/" + name);
+    router.push("/" + item.name.common);
   };
 
   /* Utility funciton */

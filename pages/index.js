@@ -29,14 +29,14 @@ export default function Home({ data }) {
   const [searchText, setSearchText] = useState("");
   const [countries, setCountries] = useState([]);
   const options = [
-    { label: "all", value: "All" },
-    { label: "africa", value: "Africa" },
-    { label: "america", value: "America" },
-    { label: "asia", value: "Asia" },
-    { label: "europe", value: "Europe" },
-    { label: "oceania", value: "Oceania" },
+    { label: "All", value: "All" },
+    { label: "Africa", value: "Africa" },
+    { label: "Americas", value: "America" },
+    { label: "Asia", value: "Asia" },
+    { label: "Europe", value: "Europe" },
+    { label: "Oceania", value: "Oceania" },
   ];
-  const [region, setRegion] = useState("All");
+  const [region, setRegion] = useState(options[0]);
   const [widthState, setWidthState] = useState(null);
 
   console.log(data);
@@ -66,9 +66,20 @@ export default function Home({ data }) {
     control: (provided) => ({
       ...provided,
       /*  marginTop: "5%", */
+      /* backgroundColor: "#90B5FE", */
       backgroundColor: "#333E48",
       border: "none",
       borderOutline: "none",
+      paddingTop: "5px",
+      paddingBottom: "5px",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      height: "100%",
+      backgroundColor: "#333E48",
+    }),
+    singleValue: () => ({
+      color: "white",
     }),
   };
 
@@ -85,7 +96,7 @@ export default function Home({ data }) {
       {/* <MainPage /> */}
       <div className="px-5 flex flex-col items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
         {/* div for (inner)body */}
-        {/* OTHERWISE display dekstop style (implement) */}
+        {/* Mobile/Smaller size */}
         {widthState <= 659 ? (
           <div className="flex flex-col w-full items-center">
             {/* FORM */}
@@ -106,7 +117,7 @@ export default function Home({ data }) {
             {/* same w as form container */}
             <div className="w-80 mb-8">
               <Select
-                className="w-1/2"
+                className="w-1/2 "
                 placeholder="Filter by region"
                 styles={customStyles}
                 value={region}
@@ -118,15 +129,17 @@ export default function Home({ data }) {
             </div>
 
             <div className="flex flex-col ">
-              {data.map((item, i) => (
-                <Country key={i} item={item} />
-              ))}
+              {region.label === "All"
+                ? data.map((item, i) => <Country key={i} item={item} />)
+                : data
+                    .filter((item) => item.region === region.label)
+                    .map((__item, i) => <Country key={i} item={__item} />)}
             </div>
           </div>
         ) : (
-          <div className="flex flex-col w-full">
-            {/* DIV for search plus filter (desktop)  */}
-            <div className="flex flex-row justify-between md:mx-8 lg:mx-10 mx-5 mb-5 items-center">
+          /* LARGER sizes: */ <div className="flex flex-col w-full">
+            {/* DIV for SEARCH plus FILTER (desktop)  */}
+            <div className="flex flex-row justify-between mb-5 items-center md:mx-8 lg:mx-10 mx-5">
               <form
                 onSubmit={(e) => handleForm(e)}
                 className="flex flex-row items-center h-12 w-80 py-4  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
@@ -154,14 +167,14 @@ export default function Home({ data }) {
               </div>
             </div>
             <div className="flex flex-wrap justify-center ">
-              {data.map((item, i) => (
-                <Country key={i} item={item} />
-              ))}
+              {region.label === "All"
+                ? data.map((item, i) => <Country key={i} item={item} />)
+                : data
+                    .filter((item) => item.region === region.label)
+                    .map((__item, i) => <Country key={i} item={__item} />)}
             </div>
           </div>
         )}
-
-        {/* ---- */}
       </div>
     </div>
   );

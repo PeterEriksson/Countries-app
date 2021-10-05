@@ -33,7 +33,7 @@ function Country({ currency, item }) {
       <div className="flex flex-col ml-6">
         <h2 className="mt-5 mb-5 font-extrabold text-xl">{item.name.common}</h2>
         <div className="flex ">
-          <p className="font-bold">Population: </p>
+          <p className="font-bold">Population:&nbsp;</p>
           {"  "}
           <p className="font-extralight">
             {" "}
@@ -41,11 +41,11 @@ function Country({ currency, item }) {
           </p>
         </div>
         <div className="flex ">
-          <p className="font-bold">Region: </p>
+          <p className="font-bold">Region:&nbsp;</p>
           <p className="font-extralight"> {item.region}</p>
         </div>
         <div className="flex ">
-          <p className="font-bold">Capital: </p>
+          <p className="font-bold">Capital:&nbsp;</p>
           <p className="font-extralight">{item.capital}</p>
         </div>
       </div>

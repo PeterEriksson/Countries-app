@@ -112,12 +112,12 @@ function CountryDetail() {
                 </h2>
                 {/* Official name */}
                 <section className="flex flex-row py-1.5">
-                  <p>Official name: </p>
+                  <p>Official name:&nbsp;</p>
                   <p className="text-gray-400"> {__country?.name.official}</p>
                 </section>
                 {/* Pupulation */}
                 <section className="flex flex-row  py-1.5">
-                  <p>Population: </p>
+                  <p>Population:&nbsp;</p>
                   <p className="text-gray-400">
                     {/* {numberWithCommas(__country?.population)} */}
                     {numberWithCommas(__country?.population)}
@@ -125,17 +125,17 @@ function CountryDetail() {
                 </section>
                 {/* Region */}
                 <section className="flex flex-row py-1.5">
-                  <p>Region: </p>
+                  <p>Region:&nbsp;</p>
                   <p className="text-gray-400">{__country?.region}</p>
                 </section>
                 {/* Sub Region */}
                 <section className="flex flex-row  py-1.5">
-                  <p>Sub Region: </p>
+                  <p>Sub Region:&nbsp;</p>
                   <p className="text-gray-400">{__country?.subregion}</p>
                 </section>
                 {/* Capital */}
                 <section className="flex flex-row  py-1.5 mb-8">
-                  <p>Capital: </p>
+                  <p>Capital:&nbsp;</p>
                   <p className="text-gray-400">{__country?.capital}</p>
                 </section>
 
@@ -155,20 +155,24 @@ function CountryDetail() {
             </section> */}
 
                 {/* Border Coutnries-> */}
-                <p className="py-1.5">Border Countries: </p>
+                <p className="py-1.5">Border Countries:</p>
                 <div className="flex  w-72 overflow-x-auto flex-wrap mb-6">
                   {/* buttons for border countries */}
-                  {__country?.borders?.map((item, i) => (
-                    <div
-                      onClick={() => handleNewCountryClick(item)}
-                      key={i}
-                      className="mr-3 mt-3 cursor-pointer flex w-14 border-2 border-borderColor flex-col justify-center items-center bg-mainDarkGrayish px-4 py-2"
-                    >
-                      <p className="font-extralight text-gray-400 text-sm">
-                        {item}
-                      </p>
-                    </div>
-                  ))}
+                  {__country?.borders?.length > 0 ? (
+                    __country?.borders?.map((item, i) => (
+                      <div
+                        onClick={() => handleNewCountryClick(item)}
+                        key={i}
+                        className="mr-3 mt-3 cursor-pointer flex w-14 border-2 border-borderColor flex-col justify-center items-center bg-mainDarkGrayish px-4 py-2"
+                      >
+                        <p className="font-extralight text-gray-400 text-sm">
+                          {item}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">(no borders)</p>
+                  )}
                 </div>
               </div>
             </div>

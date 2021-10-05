@@ -5,7 +5,18 @@ import Nav from "../components/Nav";
 import Head from "next/head";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
 
-function CountryDetail() {
+const url = "https://restcountries.com/v3.1/all";
+export async function getServerSideProps() {
+  const res = await fetch(url);
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    },
+  };
+}
+
+function CountryDetail({ data }) {
   const router = useRouter();
   let countryId = router.query.countryId;
 
@@ -26,23 +37,37 @@ function CountryDetail() {
     getAllCountries();
   }, [countryId]);
 
-  let __country = allCountries?.find((item) => item.name.common === countryId);
+  /*  let __country = allCountries?.find((item) => item.name.common === countryId); */
 
-  const handleNewCountryClick = (stringId) => {
-    const getCountry = allCountries.find((item) => item.cca3 === stringId);
+  /* Try getting data from getServerSideProps >>> */
+  let __country = data.find((item) => item.name.common === countryId);
+  /* console.log(__country); */
 
+  const handleNewCountryClick = (string) => {
+    const getCountry = data.find((item) => item.name.common === string);
     router.replace(`/${getCountry.name.common}`);
   };
 
   /* Works BUT bugs when i go back and into a country */
-  let arr = [];
+  /* let arr = [];
   for (let i = 0; i < borderCountries?.length; i++) {
     allCountries.map((item) => {
       if (item.alpha3Code === borderCountries[i]) {
         return arr.push(item.name);
       }
     });
+  } */
+
+  /* issue solved with Next.js data fetching. */
+  let boardersArr = [];
+  for (let i = 0; i < __country.borders.length; i++) {
+    data.map((item) => {
+      if (item.cca3 === __country.borders[i]) {
+        return boardersArr.push(item.name.common);
+      }
+    });
   }
+  /*  console.log(boardersArr); */
 
   /* Utility funciton */
   /* https://www.codegrepper.com/code-examples/javascript/javascript+add+comma+to+large+numbers */
@@ -154,12 +179,27 @@ function CountryDetail() {
                 <p className="py-1.5">Border Countries:</p>
                 <div className="flex  w-72 overflow-x-auto flex-wrap mb-6">
                   {/* buttons for border countries */}
-                  {__country?.borders?.length > 0 ? (
+                  {/* {__country?.borders?.length > 0 ? (
                     __country?.borders?.map((item, i) => (
                       <div
                         onClick={() => handleNewCountryClick(item)}
                         key={i}
                         className="mr-3 mt-3 cursor-pointer flex w-14 border-2 border-borderColor flex-col justify-center items-center bg-mainDarkGrayish px-4 py-2"
+                      >
+                        <p className="font-extralight text-gray-400 text-sm">
+                          {item}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">(no borders)</p>
+                  )} */}
+                  {boardersArr.length > 0 ? (
+                    boardersArr.map((item, i) => (
+                      <div
+                        onClick={() => handleNewCountryClick(item)}
+                        key={i}
+                        className="mr-3 mt-3 cursor-pointer flex w-14 border-2 border-borderColor flex-col justify-center items-center bg-mainDarkGrayish px-10 py-2"
                       >
                         <p className="font-extralight text-gray-400 text-sm">
                           {item}

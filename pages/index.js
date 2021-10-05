@@ -132,6 +132,7 @@ export default function Home({ data }) {
             </div>
 
             <div className="flex flex-col ">
+              {/* search handler:>>> */}
               {searchText === ""
                 ? region.label === "All"
                   ? data.map((item, i) => <Country key={i} item={item} />)
@@ -181,8 +182,9 @@ export default function Home({ data }) {
                 />
               </div>
             </div>
-            {/* search functionality. no eventHandler */}
+            {/* search functionality. no eventFormHandler */}
             <div className="flex flex-wrap justify-center ">
+              {/* search handler:>>> */}
               {searchText === ""
                 ? region.label === "All"
                   ? data.map((item, i) => <Country key={i} item={item} />)

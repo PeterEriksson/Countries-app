@@ -83,6 +83,10 @@ export default function Home({ data }) {
     }),
   };
 
+  const handleForm = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="font-mainFont">
       <Head>
@@ -104,7 +108,7 @@ export default function Home({ data }) {
               onSubmit={(e) => handleForm(e)}
               className="flex mb-8 flex-row items-center h-12 w-80 py-6  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
             >
-              <SearchIcon className="h-5 w-5 ml-8 cursor-pointer" />
+              <SearchIcon className="h-5 w-5 ml-8 " />
               <input
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
@@ -125,15 +129,32 @@ export default function Home({ data }) {
                 options={options}
                 getOptionValue={(option) => option.value}
                 getOptionLabel={(option) => option.value}
+                instanceId="1267"
               />
             </div>
 
             <div className="flex flex-col ">
-              {region.label === "All"
+              {/* {region.label === "All"
                 ? data.map((item, i) => <Country key={i} item={item} />)
                 : data
                     .filter((item) => item.region === region.label)
-                    .map((__item, i) => <Country key={i} item={__item} />)}
+                    .map((__item, i) => <Country key={i} item={__item} />)} */}
+              {searchText === ""
+                ? region.label === "All"
+                  ? data.map((item, i) => <Country key={i} item={item} />)
+                  : data
+                      .filter((item) => item.region === region.label)
+                      .map((__item, i) => <Country key={i} item={__item} />)
+                : data
+                    .filter((item) => item.region === region.label)
+                    .filter((item) => item.name.common === searchText)
+                    .map((item, i) => <Country key={i} item={item} />)}
+
+              {searchText !== "" &&
+                region.label === "All" &&
+                data
+                  .filter((item) => item.name.common === searchText)
+                  .map((item, i) => <Country key={i} item={item} />)}
             </div>
           </div>
         ) : (
@@ -144,7 +165,7 @@ export default function Home({ data }) {
                 onSubmit={(e) => handleForm(e)}
                 className="flex flex-row items-center h-12 w-80 py-4  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
               >
-                <SearchIcon className="h-5 w-5 ml-8 cursor-pointer" />
+                <SearchIcon className="h-5 w-5 ml-8 " />
                 <input
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
@@ -163,15 +184,28 @@ export default function Home({ data }) {
                   options={options}
                   getOptionValue={(option) => option.value}
                   getOptionLabel={(option) => option.value}
+                  instanceId="123435567"
                 />
               </div>
             </div>
+            {/* search functionality. no eventHandler */}
             <div className="flex flex-wrap justify-center ">
-              {region.label === "All"
-                ? data.map((item, i) => <Country key={i} item={item} />)
+              {searchText === ""
+                ? region.label === "All"
+                  ? data.map((item, i) => <Country key={i} item={item} />)
+                  : data
+                      .filter((item) => item.region === region.label)
+                      .map((__item, i) => <Country key={i} item={__item} />)
                 : data
                     .filter((item) => item.region === region.label)
-                    .map((__item, i) => <Country key={i} item={__item} />)}
+                    .filter((item) => item.name.common === searchText)
+                    .map((item, i) => <Country key={i} item={item} />)}
+
+              {searchText !== "" &&
+                region.label === "All" &&
+                data
+                  .filter((item) => item.name.common === searchText)
+                  .map((item, i) => <Country key={i} item={item} />)}
             </div>
           </div>
         )}

@@ -30,7 +30,7 @@ function CountryDetail() {
 
   const handleNewCountryClick = (stringId) => {
     const getCountry = allCountries.find((item) => item.cca3 === stringId);
-    /* console.log(getCountry.name); */
+
     router.replace(`/${getCountry.name.common}`);
   };
 
@@ -64,11 +64,7 @@ function CountryDetail() {
     return <p className="text-gray-400">{string}</p>;
   };
 
-  /* const languages = Object.keys(__country?.languages).map((key) => (
-    <p key={key}>{__country?.languages[key]}</p>
-  )); */
-
-  console.log(__country);
+  /* console.log(__country); */
 
   return (
     <div className="font-mainFont">

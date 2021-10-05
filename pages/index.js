@@ -22,7 +22,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ data }) {
-  console.log("data", data);
+  /* console.log("data", data); */
   const router = useRouter();
 
   const [areaSelected, setAreaSelected] = useState("");
@@ -39,8 +39,6 @@ export default function Home({ data }) {
   const [region, setRegion] = useState(options[0]);
   const [widthState, setWidthState] = useState(null);
 
-  console.log(data);
-
   useEffect(() => {
     setWidthState(window.innerWidth);
     function handleResize() {
@@ -54,7 +52,7 @@ export default function Home({ data }) {
 
   const onchangeSelect = (item) => {
     setRegion(item);
-    console.log(region.label);
+    /* console.log(region.label); */
   };
 
   const customStyles = {
@@ -134,11 +132,6 @@ export default function Home({ data }) {
             </div>
 
             <div className="flex flex-col ">
-              {/* {region.label === "All"
-                ? data.map((item, i) => <Country key={i} item={item} />)
-                : data
-                    .filter((item) => item.region === region.label)
-                    .map((__item, i) => <Country key={i} item={__item} />)} */}
               {searchText === ""
                 ? region.label === "All"
                   ? data.map((item, i) => <Country key={i} item={item} />)

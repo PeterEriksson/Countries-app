@@ -41,10 +41,9 @@ function CountryDetail({ data }) {
 
   /* Try getting data from getServerSideProps >>> */
   let __country = data.find((item) => item.name.common === countryId);
-  /* console.log(__country); */
 
   const handleNewCountryClick = (string) => {
-    const getCountry = data.find((item) => item.name.common === string);
+    const getCountry = data?.find((item) => item.name.common === string);
     router.replace(`/${getCountry.name.common}`);
   };
 
@@ -67,7 +66,6 @@ function CountryDetail({ data }) {
       }
     });
   }
-  /*  console.log(boardersArr); */
 
   /* Utility funciton */
   /* https://www.codegrepper.com/code-examples/javascript/javascript+add+comma+to+large+numbers */

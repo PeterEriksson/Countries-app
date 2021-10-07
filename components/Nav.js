@@ -1,23 +1,51 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MoonIcon } from "@heroicons/react/solid";
+import { MoonIcon as MoonIconOutline } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
+import { Context } from "../Context";
 
 function Nav() {
   const router = useRouter();
 
+  const { toggleTheme } = useContext(Context);
+  const { darkTheme } = useContext(Context);
+
+  /* console.log(darkTheme); */
+
   return (
     /* margin on the sides: 10 on each side. */
-    <div className="w-screen h-20 border-b-4 border-borderColor  z-50 fixed top-0 bg-mainDarkGrayish flex flex-row justify-between items-center">
+    <div
+      className={`w-screen h-20 border-b-4 ${
+        darkTheme
+          ? "border-borderColor bg-mainDarkGrayish"
+          : "border-lightBorderColor bg-whiteSmokeBg"
+      }   z-50 fixed top-0 flex flex-row justify-between items-center`}
+    >
       <h3
         onClick={() => router.push("/")}
-        className="text-white font-extrabold cursor-pointer text-lg ml-5"
+        className={`${
+          darkTheme ? "text-white" : "text-black"
+        }  font-extrabold cursor-pointer text-lg ml-5`}
       >
         Where in the world?
       </h3>
 
-      <div className="flex flex-row mr-5 items-center cursor-pointer">
-        <MoonIcon className="h-5 w-5 text-white" />
-        <h4 className="font-semibold text-white ml-2 text-sm">Dark Mode</h4>
+      <div
+        onClick={toggleTheme}
+        className="flex flex-row mr-5 items-center cursor-pointer"
+      >
+        {darkTheme ? (
+          <MoonIcon className="h-5 w-5 text-white" />
+        ) : (
+          <MoonIconOutline className="h-5 w-5 text-black" />
+        )}
+        <h4
+          className={`font-semibold ${
+            darkTheme ? "text-white" : "text-black"
+          }  ml-2 text-sm`}
+        >
+          Dark Mode
+        </h4>
       </div>
     </div>
   );

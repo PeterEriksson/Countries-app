@@ -59,7 +59,7 @@ function CountryDetail({ data }) {
 
   /* issue solved with Next.js data fetching. */
   let boardersArr = [];
-  for (let i = 0; i < __country.borders.length; i++) {
+  for (let i = 0; i < __country.borders?.length; i++) {
     data.map((item) => {
       if (item.cca3 === __country.borders[i]) {
         return boardersArr.push(item.name.common);

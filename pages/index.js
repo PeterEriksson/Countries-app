@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Nav from "../components/Nav";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import Country from "../components/Country";
@@ -8,6 +8,7 @@ import Country from "../components/Country";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Select from "react-select";
+import { Context } from "../Context";
 
 /* https://www.youtube.com/watch?v=iW39Merz0zE */
 const url = "https://restcountries.com/v3.1/all";
@@ -24,6 +25,8 @@ export async function getServerSideProps() {
 export default function Home({ data }) {
   /* console.log("data", data); */
   const router = useRouter();
+
+  const { darkTheme } = useContext(Context);
 
   const [areaSelected, setAreaSelected] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -96,7 +99,11 @@ export default function Home({ data }) {
       <Nav />
       {/* MainPage */}
       {/* <MainPage /> */}
-      <div className="px-5 flex flex-col items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
+      <div
+        className={`px-5 flex flex-col items-center h-screen overflow-y-auto pt-28 ${
+          darkTheme ? "bg-mainDark text-white" : "bg-mainLightBg text-black"
+        }   `}
+      >
         {/* div for (inner)body */}
         {/* Mobile/Smaller size */}
         {widthState <= 659 ? (

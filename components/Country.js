@@ -25,7 +25,7 @@ function Country({ currency, item }) {
         darkTheme
           ? "bg-mainDarkGrayish border-borderColor border-4  text-white"
           : "bg-whiteSmokeBg text-black border-4 border-borderLightTest"
-      }   h-80 w-64  rounded-md`}
+      }   h-80 w-64  rounded-md  `}
     >
       <div className=" flex justify-center">
         <LazyLoadImage

@@ -1,9 +1,10 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Nav from "../components/Nav";
 import Head from "next/head";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
+import { Context } from "../Context";
 
 const url = "https://restcountries.com/v3.1/all";
 export async function getServerSideProps() {
@@ -22,6 +23,8 @@ function CountryDetail({ data }) {
 
   const [allCountries, setAllCountries] = useState([]);
   const [borderCountries, setBorderCountries] = useState([]);
+
+  const { darkTheme } = useContext(Context);
 
   useEffect(() => {
     const getAllCountries = async () => {
@@ -97,17 +100,24 @@ function CountryDetail({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Nav />
-      <main className="px-5 flex flex-col  items-center h-screen overflow-y-auto pt-28 bg-mainDark text-white">
+      <main
+        className={`px-5 flex flex-col  items-center h-screen overflow-y-auto pt-28  ${
+          darkTheme ? "bg-mainDark text-white" : "bg-mainLightBg text-black"
+        }  transition duration-200 ease-in`}
+      >
         <section className="flex flex-col w-full items-center">
           {/* BACK BUTTON */}
           {/* set div w-60 -> positions button at right place. */}
-
           <div className="w-60 mb-10 flex flex-col smallMediumBreakpoint:mr-80 ">
             <section
               onClick={() => router.push("/")}
-              className="w-2/5  cursor-pointer space-x-2 text-gray-300 bg-mainDarkGrayish py-2 rounded-sm flex flex-row justify-center items-center"
+              className={`w-2/5  cursor-pointer space-x-2 ${
+                darkTheme
+                  ? "text-gray-300 bg-mainDarkGrayish border-borderColor"
+                  : "text-gray-800 bg-whiteSmokeBg border-borderLightTest"
+              }   py-2 rounded-sm flex flex-row justify-center border-2 items-center transition duration-200 ease-in hover:scale-110`}
             >
-              <ArrowLeftIcon className="w-4 h-4" />
+              <ArrowLeftIcon className={`w-4 h-4  `} />
               <button>Back</button>
             </section>
           </div>
@@ -118,9 +128,9 @@ function CountryDetail({ data }) {
             <LazyLoadImage
               src={__country?.flags.svg}
               effect=""
-              className="rounded-md"
-              height={400}
-              width={250}
+              className="rounded-md smallMediumBreakpoint:w-44 smallMediumBreakpoint:h-72 w-44 h-56 smallMediumBreakpoint:mr-16 smallMediumBreakpoint:mt-5"
+              /* height={320}
+              width={250} */
             />
             {/* Country Name */}
             {/* DIV FOR NAME DOWN TO BORDERS  */}
@@ -132,12 +142,23 @@ function CountryDetail({ data }) {
                 {/* Official name */}
                 <section className="flex flex-row py-1.5">
                   <p>Official name:&nbsp;</p>
-                  <p className="text-gray-400"> {__country?.name.official}</p>
+                  <p
+                    className={`${
+                      darkTheme ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
+                    {" "}
+                    {__country?.name.official}
+                  </p>
                 </section>
                 {/* Pupulation */}
                 <section className="flex flex-row  py-1.5">
                   <p>Population:&nbsp;</p>
-                  <p className="text-gray-400">
+                  <p
+                    className={`${
+                      darkTheme ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
                     {/* {numberWithCommas(__country?.population)} */}
                     {numberWithCommas(__country?.population)}
                   </p>
@@ -145,17 +166,35 @@ function CountryDetail({ data }) {
                 {/* Region */}
                 <section className="flex flex-row py-1.5">
                   <p>Region:&nbsp;</p>
-                  <p className="text-gray-400">{__country?.region}</p>
+                  <p
+                    className={`${
+                      darkTheme ? "text-gray-400" : "text-gray-600"
+                    } `}
+                  >
+                    {__country?.region}
+                  </p>
                 </section>
                 {/* Sub Region */}
                 <section className="flex flex-row  py-1.5">
                   <p>Sub Region:&nbsp;</p>
-                  <p className="text-gray-400">{__country?.subregion}</p>
+                  <p
+                    className={`${
+                      darkTheme ? "text-gray-400" : "text-gray-600"
+                    } `}
+                  >
+                    {__country?.subregion}
+                  </p>
                 </section>
                 {/* Capital */}
-                <section className="flex flex-row  py-1.5 mb-8">
+                <section className="flex flex-row  py-1.5 mb-4">
                   <p>Capital:&nbsp;</p>
-                  <p className="text-gray-400">{__country?.capital}</p>
+                  <p
+                    className={`${
+                      darkTheme ? "text-gray-400" : "text-gray-600"
+                    } `}
+                  >
+                    {__country?.capital}
+                  </p>
                 </section>
 
                 {/* Top Level Domain + Currencies + Languages (new api weird >>> commented out) */}
@@ -197,9 +236,17 @@ function CountryDetail({ data }) {
                       <div
                         onClick={() => handleNewCountryClick(item)}
                         key={i}
-                        className="mr-3 mt-3 cursor-pointer flex w-14 border-2 border-borderColor flex-col justify-center items-center bg-mainDarkGrayish px-10 py-2"
+                        className={`mr-3 mt-3 cursor-pointer flex w-14 border-2 ${
+                          darkTheme
+                            ? "border-borderColor bg-mainDarkGrayish hover:bg-borderColor"
+                            : "bg-whiteSmokeBg border-borderLightTest  hover:bg-mainLightBg"
+                        } flex-col justify-center items-center  px-10 py-2 transition duration-200 ease-in`}
                       >
-                        <p className="font-extralight text-gray-400 text-sm">
+                        <p
+                          className={`font-extralight ${
+                            darkTheme ? "text-gray-400" : "text-gray-600"
+                          }  transition duration-200 ease-in text-sm`}
+                        >
                           {item}
                         </p>
                       </div>

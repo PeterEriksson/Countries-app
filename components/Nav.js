@@ -19,13 +19,13 @@ function Nav() {
         darkTheme
           ? "border-borderColor bg-mainDarkGrayish"
           : "border-borderLightTest bg-whiteSmokeBg"
-      }   z-50 fixed top-0 flex flex-row justify-between items-center`}
+      }   z-50 fixed top-0 flex flex-row justify-between items-center transition duration-200 ease-in`}
     >
       <h3
         onClick={() => router.push("/")}
         className={`${
           darkTheme ? "text-white" : "text-black"
-        }  font-extrabold cursor-pointer text-lg ml-5`}
+        }  font-extrabold cursor-pointer text-lg ml-5 transition duration-200 ease-in`}
       >
         Where in the world?
       </h3>
@@ -35,14 +35,14 @@ function Nav() {
         className="flex flex-row mr-5 items-center cursor-pointer"
       >
         {darkTheme ? (
-          <MoonIcon className="h-5 w-5 text-white" />
+          <MoonIcon className="h-5 w-5 text-white  ease-in" />
         ) : (
-          <MoonIconOutline className="h-5 w-5 text-black" />
+          <MoonIconOutline className="h-5 w-5 text-black  ease-in" />
         )}
         <h4
           className={`font-semibold ${
             darkTheme ? "text-white" : "text-black"
-          }  ml-2 text-sm`}
+          }  ml-2 text-sm transition duration-200 ease-in`}
         >
           Dark Mode
         </h4>

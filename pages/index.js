@@ -128,7 +128,7 @@ export default function Home({ data }) {
       <div
         className={`px-5 flex flex-col items-center h-screen overflow-y-auto pt-28 ${
           darkTheme ? "bg-mainDark text-white" : "bg-mainLightBg text-black"
-        }   `}
+        }  transition duration-200 ease-in `}
       >
         {/* div for (inner)body */}
         {/* Mobile/Smaller size */}
@@ -140,8 +140,8 @@ export default function Home({ data }) {
               className={`flex mb-8 flex-row items-center h-12 w-80 py-6 ${
                 darkTheme
                   ? "bg-mainDarkGrayish border-4 border-borderColor"
-                  : "bg-whiteSmokeBg border-lightBorderColor"
-              }  rounded-lg `}
+                  : "bg-whiteSmokeBg border-4 border-borderLightTest"
+              }  rounded-lg transition duration-200 ease-in`}
             >
               <SearchIcon className="h-5 w-5 ml-8 " />
               <input
@@ -150,7 +150,7 @@ export default function Home({ data }) {
                 type="text"
                 className={`font-medium text-sm  w-full flex-grow pl-8 ${
                   darkTheme ? "bg-mainDarkGrayish" : "bg-whiteSmokeBg"
-                } outline-none `}
+                } outline-none transition duration-200 ease-in`}
                 placeholder="Search for a country..."
               />
             </form>
@@ -202,7 +202,7 @@ export default function Home({ data }) {
                   darkTheme
                     ? "bg-mainDarkGrayish border-4 border-borderColor"
                     : "bg-whiteSmokeBg   border-lightBorderColor"
-                }     rounded-lg`}
+                }     rounded-lg transition duration-200 ease-in`}
               >
                 <SearchIcon className="h-5 w-5 ml-8 " />
                 <input
@@ -211,7 +211,7 @@ export default function Home({ data }) {
                   type="text"
                   className={`font-medium text-sm  w-full flex-grow pl-8 outline-none  ${
                     darkTheme ? "bg-mainDarkGrayish" : "bg-whiteSmokeBg"
-                  } `}
+                  } transition duration-200 ease-in`}
                   placeholder="Search for a country..."
                 />
               </form>

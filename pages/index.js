@@ -58,7 +58,7 @@ export default function Home({ data }) {
     /* console.log(region.label); */
   };
 
-  const customStyles = {
+  const customStylesSelectDark = {
     option: (provided, state) => ({
       ...provided,
       color: "white",
@@ -81,6 +81,32 @@ export default function Home({ data }) {
     }),
     singleValue: () => ({
       color: "white",
+    }),
+  };
+
+  const customStylesSelectLight = {
+    option: (provided, state) => ({
+      ...provided,
+      color: "black",
+      backgroundColor: state.isSelected ? "#d4d4d4" : "#f5f5f5",
+    }),
+    control: (provided) => ({
+      ...provided,
+      /*  marginTop: "5%", */
+      /* backgroundColor: "#90B5FE", */
+      backgroundColor: "#f5f5f5",
+      border: "none",
+      borderOutline: "none",
+      paddingTop: "5px",
+      paddingBottom: "5px",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      height: "100%",
+      backgroundColor: "#f5f5f5",
+    }),
+    singleValue: () => ({
+      color: "black",
     }),
   };
 
@@ -111,14 +137,20 @@ export default function Home({ data }) {
             {/* FORM */}
             <form
               onSubmit={(e) => handleForm(e)}
-              className="flex mb-8 flex-row items-center h-12 w-80 py-6  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
+              className={`flex mb-8 flex-row items-center h-12 w-80 py-6 ${
+                darkTheme
+                  ? "bg-mainDarkGrayish border-4 border-borderColor"
+                  : "bg-whiteSmokeBg border-lightBorderColor"
+              }  rounded-lg `}
             >
               <SearchIcon className="h-5 w-5 ml-8 " />
               <input
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 type="text"
-                className="font-medium text-sm  w-full flex-grow pl-8 outline-none bg-mainDarkGrayish"
+                className={`font-medium text-sm  w-full flex-grow pl-8 ${
+                  darkTheme ? "bg-mainDarkGrayish" : "bg-whiteSmokeBg"
+                } outline-none `}
                 placeholder="Search for a country..."
               />
             </form>
@@ -128,7 +160,9 @@ export default function Home({ data }) {
               <Select
                 className="w-1/2 "
                 placeholder="Filter by region"
-                styles={customStyles}
+                styles={
+                  darkTheme ? customStylesSelectDark : customStylesSelectLight
+                }
                 value={region}
                 onChange={onchangeSelect}
                 options={options}
@@ -164,14 +198,20 @@ export default function Home({ data }) {
             <div className="flex flex-row justify-between mb-5 items-center md:mx-8 lg:mx-10 mx-5">
               <form
                 onSubmit={(e) => handleForm(e)}
-                className="flex flex-row items-center h-12 w-80 py-4  bg-mainDarkGrayish border-4 border-borderColor rounded-lg"
+                className={`flex flex-row items-center h-12 w-80 py-4  ${
+                  darkTheme
+                    ? "bg-mainDarkGrayish border-4 border-borderColor"
+                    : "bg-whiteSmokeBg   border-lightBorderColor"
+                }     rounded-lg`}
               >
                 <SearchIcon className="h-5 w-5 ml-8 " />
                 <input
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value)}
                   type="text"
-                  className="font-medium text-sm  w-full flex-grow pl-8 outline-none bg-mainDarkGrayish"
+                  className={`font-medium text-sm  w-full flex-grow pl-8 outline-none  ${
+                    darkTheme ? "bg-mainDarkGrayish" : "bg-whiteSmokeBg"
+                  } `}
                   placeholder="Search for a country..."
                 />
               </form>
@@ -179,7 +219,9 @@ export default function Home({ data }) {
                 <Select
                   className="w-full"
                   placeholder="Filter by region"
-                  styles={customStyles}
+                  styles={
+                    darkTheme ? customStylesSelectDark : customStylesSelectLight
+                  }
                   value={region}
                   onChange={onchangeSelect}
                   options={options}

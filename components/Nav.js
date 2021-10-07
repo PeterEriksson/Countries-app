@@ -18,7 +18,7 @@ function Nav() {
       className={`w-screen h-20 border-b-4 ${
         darkTheme
           ? "border-borderColor bg-mainDarkGrayish"
-          : "border-lightBorderColor bg-whiteSmokeBg"
+          : "border-borderLightTest bg-whiteSmokeBg"
       }   z-50 fixed top-0 flex flex-row justify-between items-center`}
     >
       <h3

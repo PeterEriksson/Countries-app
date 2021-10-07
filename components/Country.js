@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Context } from "../Context";
 
 function Country({ currency, item }) {
   const router = useRouter();
+  const { darkTheme } = useContext(Context);
 
   const handleCountryClick = () => {
     router.push("/" + item.name.common);
@@ -19,13 +21,17 @@ function Country({ currency, item }) {
   return (
     <div
       onClick={() => handleCountryClick()}
-      className="cursor-pointer flex flex-col mx-4 mb-7 bg-mainDarkGrayish h-80 w-64 border-8 border-borderColor rounded-lg"
+      className={`cursor-pointer flex flex-col mx-4 mb-7 ${
+        darkTheme
+          ? "bg-mainDarkGrayish border-borderColor border-4  text-white"
+          : "bg-whiteSmokeBg text-black border-4 border-borderLightTest"
+      }   h-80 w-64  rounded-md`}
     >
-      <div className="bg-mainDarkGrayish flex justify-center">
+      <div className=" flex justify-center">
         <LazyLoadImage
           src={item.flags.png}
           effect=""
-          className="rounded-t-md object-cover w-64 h-32"
+          className="rounded-t-sm object-cover w-64 h-32"
           /* height={400}
           width={250} */
         />

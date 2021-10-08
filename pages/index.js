@@ -4,7 +4,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { SearchIcon } from "@heroicons/react/outline";
 import Image from "next/image";
 import Country from "../components/Country";
-/* import { LazyLoadImage } from "react-lazy-load-image-component"; */
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Select from "react-select";

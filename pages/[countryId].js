@@ -127,6 +127,7 @@ function CountryDetail({ data }) {
             {/* Country Flag */}
             <LazyLoadImage
               src={__country?.flags.svg}
+              alt=""
               effect=""
               className="rounded-md smallMediumBreakpoint:w-44 smallMediumBreakpoint:h-72 w-44 h-56 smallMediumBreakpoint:mr-16 smallMediumBreakpoint:mt-5"
               /* height={320}

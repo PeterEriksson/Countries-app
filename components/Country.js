@@ -30,6 +30,7 @@ function Country({ currency, item }) {
       <div className=" flex justify-center">
         <LazyLoadImage
           src={item.flags.png}
+          alt=""
           effect=""
           className="rounded-t-sm object-cover w-64 h-32"
           /* height={400}

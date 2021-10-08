@@ -114,6 +114,17 @@ export default function Home({ data }) {
     e.preventDefault();
   };
 
+  /* https://flexiple.com/javascript-capitalize-first-letter/ */
+  const handleChangeUserInput = (e) => {
+    let arr = e.target.value.split(" ");
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    let result = arr.join(" ");
+    setSearchText(result);
+    /* console.log(result); */
+  };
+
   return (
     <div className="font-mainFont">
       <Head>
@@ -146,7 +157,7 @@ export default function Home({ data }) {
               <SearchIcon className="h-5 w-5 ml-8 " />
               <input
                 value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => handleChangeUserInput(e)}
                 type="text"
                 className={`font-medium text-sm  w-full flex-grow pl-8 ${
                   darkTheme ? "bg-mainDarkGrayish" : "bg-whiteSmokeBg"
@@ -207,7 +218,7 @@ export default function Home({ data }) {
                 <SearchIcon className="h-5 w-5 ml-8 " />
                 <input
                   value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
+                  onChange={(e) => handleChangeUserInput(e)}
                   type="text"
                   className={`font-medium text-sm  w-full flex-grow pl-8 outline-none  ${
                     darkTheme ? "bg-mainDarkGrayish" : "bg-whiteSmokeBg"

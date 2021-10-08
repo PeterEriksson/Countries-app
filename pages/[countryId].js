@@ -216,21 +216,7 @@ function CountryDetail({ data }) {
                 <p className="py-1.5">Border Countries:</p>
                 <div className="flex  w-72 overflow-x-auto flex-wrap mb-6">
                   {/* buttons for border countries */}
-                  {/* {__country?.borders?.length > 0 ? (
-                    __country?.borders?.map((item, i) => (
-                      <div
-                        onClick={() => handleNewCountryClick(item)}
-                        key={i}
-                        className="mr-3 mt-3 cursor-pointer flex w-14 border-2 border-borderColor flex-col justify-center items-center bg-mainDarkGrayish px-4 py-2"
-                      >
-                        <p className="font-extralight text-gray-400 text-sm">
-                          {item}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-500">(no borders)</p>
-                  )} */}
+
                   {boardersArr.length > 0 ? (
                     boardersArr.map((item, i) => (
                       <div
